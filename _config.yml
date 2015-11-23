@@ -8,8 +8,8 @@ highlighter: pygments
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : Erik Garrison
-tagline: Reading and writing genomes
+title : Replications
+tagline: Rough copy about reading and writing genomes
 author :
   name : Erik Garrison Lastname
   email : erik.garrison@gmail.com
@@ -100,7 +100,7 @@ JB :
   # Set 'provider' to false to turn analytics off globally.
   #        
   analytics :
-    provider : google
+    provider : false
     gauges :
         site_id : 'SITE ID'
     google : 
