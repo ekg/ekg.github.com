@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Replications 
-tagline: writing about reading DNA
+#title: Replications 
+#tagline: writing about reading DNA
 ---
 {% include JB/setup %}
 
