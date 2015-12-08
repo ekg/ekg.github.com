@@ -53,7 +53,7 @@ For example, here we see that on the contig named "q" we have a high quality [SN
 
 We can think of the variant caller as a kind of compressor for genomic data. In this example, which is a standard test run in [freebayes](github.com/ekg/freebayes), we take 300KB of alignment data and reference sequence and reduce it to a 16KB description of the variation:
 
-```bash
+```
 ➜  test git:(master) ✗ freebayes -f tiny/q.fa tiny/NA12878.chr22.tiny.bam | wc -c
 16101
 ➜  test git:(master) ✗ ls -sh tiny/q.fa tiny/NA12878.chr22.tiny.bam
