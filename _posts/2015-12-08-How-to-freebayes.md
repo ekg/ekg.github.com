@@ -102,5 +102,5 @@ I am very happy to announce that I have been collaborating with the research tea
 
 In addition to supporting me in the development of new features, they've asked me to continue providing technical support via public channels, such as on the [freebayes issues page](https://github.com/ekg/freebayes/issues) and [mailing list](https://groups.google.com/forum/#!msg/freebayes), and also on this blog, where I plan to dive deeper into documentation of the many facets of the method.
 
-Our arrangement obligates us to keep everything in the open, and I think it can serve as a model for how industry can support the public commons for the benefit of all. I'd like to say "thank you" to the team at DNAnexus, and also to all of the researchers who are using freebayes to further our understanding of the natural world! I'm looking forward to enabling some really cool research. 😁
+Our arrangement obligates us to keep everything in the open, and I think it can serve as a model for how industry can support the public commons for the benefit of all. I'd like to say "thank you" to the team at DNAnexus, and also to all of the researchers who are using freebayes to further our understanding of the natural world! I'm looking forward to enabling some really cool research.
 
