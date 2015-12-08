@@ -98,7 +98,7 @@ Despite the lack of funding, [interest in freebayes and its use has grown contin
 
 ### I'm working with DNAnexus to maintain freebayes as an open source project!
 
-I am very happy to announce that I have been collaborating with the research team at [DNAnexus](https://www.dnanexus.com/) to develop new extensions to freebayes! Their support has already helped me implement basic [gVCF support in freebayes](https://github.com/ekg/freebayes/pull/213), and we have a bunch of improvements queued up that should ensure that freebayes continues to be useful to the community well into the future. They've also made [an announcement about this project](http://wp.me/p2pbHs-qJ).
+I am very happy to announce that I have been collaborating with the research team at [DNAnexus](https://www.dnanexus.com/) to develop new extensions to freebayes! Their support has already helped me implement basic [gVCF support in freebayes](https://github.com/ekg/freebayes/pull/213), and we have a bunch of improvements queued up that should ensure that freebayes continues to be useful to the community well into the future. This post coincides with DNAnexus' [announcement about this work on their blog](http://blog.dnanexus.com/2015-12-08-supporting-freebayes-to-serve-our-customers-and-the-community/).
 
 In addition to supporting me in the development of new features, they've asked me to continue providing technical support via public channels, such as on the [freebayes issues page](https://github.com/ekg/freebayes/issues) and [mailing list](https://groups.google.com/forum/#!msg/freebayes), and also on this blog, where I plan to dive deeper into documentation of the many facets of the method.
 
