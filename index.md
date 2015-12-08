@@ -3,6 +3,17 @@ layout: page
 #title: Replications 
 #tagline: writing about reading DNA
 ---
-{% include JB/setup %}
 
-<h3>Posts</h3> <ul> {% for post in site.posts %} <li> <a href="{{ post.url }}">{{ post.title }}</a> </li> {% endfor %} </ul>
+{% for post in site.posts %}
+
+<article class='post'>
+  <h1 class='post-title'>
+    <a href="{{ site.path }}{{ post.url }}">
+      {{ post.title }}
+    </a>
+  </h1>
+  <div class="post-date">{{ post.date | date: "%b %-d, %Y" }}</div>
+  {{ post.content }}
+</article>
+
+{% endfor %}
