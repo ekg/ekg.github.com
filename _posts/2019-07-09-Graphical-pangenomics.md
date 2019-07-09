@@ -28,7 +28,7 @@ We don't have any inverting edges or cycles, but we do see a feature that's impo
 Above, we see the core of the graphical structure.
 Below, paths are represented by the sequence of node identifiers they pass through.
 
-<img src="{{ site.url }}/assets/H-3136.dot.png")>
+![Example variation graph visualization with dot for H-3136]({{ site.url }}/assets/H-3136.dot.png)
 
 ### Schema based data formats for variation graphs
 
@@ -56,7 +56,7 @@ However, it's important to note what this allows us to do.
 We can support the "fundamental" operation of variation graphs, _edit_.
 Here, we augment the graph on the left (_G_) with alignment _z_, that includes a SNP allele, yielding the graph on the right:
 
-<img src="{{ site.url }}/assets/example_vg_construction_edit_only.png")>
+![Editing a variation graph]({{ site.url }}/assets/example_vg_construction_edit_only.png)
 
 With this operation and an aligner, we can progressively build variation graphs (as in `vg msga`).
 If we build a variant caller that emits genotypes as sets of _Path_s, then we can directly use the output of the variant caller to extend the reference system with the same function (as in `vg call`).
@@ -108,7 +108,7 @@ In this context, the graph is simply a black box that is used to reduce referenc
 To illustrate this concept, the following figure shows a surjection function in terms of node space for a graph and the subgraph corresponding to its embedded path.
 This kind of projection will work for any pair of graphs with the same embedded path.
 
-<img src="{{ site.url }}/assets/surject-example.png")>
+![Surjection between variation graphs]({{ site.url }}/assets/surject-example.png)
 
 This feature also addresses another key shortcoming of genome graphs.
 Graphs built from sequences and linkages between them are memoryless, and allow recombinations of alleles that are very unlikely to exist in reality.
@@ -146,7 +146,7 @@ Where chromosomes of the input genomes have been scaffolded, this can immediatel
 To illustrate these two tools, consider the set of genomes from the [Yeast Population Reference Panel](https://yjx1217.github.io/Yeast_PacBio_2016/data/).
 Here, taking only the _cerevisiae_ genomes, we run minimap2, filter the alignments to remove short alignments <10kb, then induce the variation graph with seqwish and render an image of the output with [Bandage](https://github.com/ekg/yeast-pangenome/blob/master/steps.sh):
 
-<img src="{{ site.url }}/assets/seqwish10kbyeast.png")>
+![Seqwish yeast Bandage visualization]({{ site.url }}/assets/seqwish10kbyeast.png)
 
 This shows a relatively open graph, with some collapse and some apparently unaligned chromosome ends (perhaps because of our length filter).
 Rendering with Bandage can take an extremely long time and the resulting graphs are difficult to interpret because it is not easy to view the relationship between different embedded paths in the graph.
@@ -162,7 +162,7 @@ We immediately see that a chromosome in UWOPS034614 (a highly diverged strain) h
 Also notable are the frequent structural variations and CNVs that appear to be embedded in the ends of chromosomes.
 This confirms another finding from the [paper describing these assemblies](https://www.nature.com/articles/ng.3847), whose authors observed that subtelomeric regions were hotspots of structural variation.
 
-<img src="{{ site.url }}/assets/seqwish_yeast_l10k.dg.png")>
+![Seqwish yeast odgi viz]({{ site.url }}/assets/seqwish_yeast_l10k.dg.png)
 
 If you're curious how this works, [I've documented steps to do this for the whole collection.](https://github.com/ekg/yeast-pangenome/blob/master/steps.sh)
 In the coming weeks, I'll be reporting more on these methods and their applications to collections of human genome assemblies.
@@ -212,8 +212,8 @@ This gene is highly divergent in the human population, and I've long used it as 
 The top graph was produced by minigraph, using a shorter (2kb) alignment threshold than default, while the bottom was produced by seqwish, with the same 2kb alignment filter.
 They are different in size (minigraph yields 20% more sequence in the graph) and complexity (seqwish is much more complex topologically) but suggest the same structure.
 
-<img src="{{ site.url }}/assets/DRB1-3123.minigraph.png")>
-<img src="{{ site.url }}/assets/DRB1-3123.seqwish.png")>
+![minigraph for DRB1-3123]({{ site.url }}/assets/DRB1-3123.minigraph.png)
+![seqwish for DRB1-3123]({{ site.url }}/assets/DRB1-3123.seqwish.png)
 
 I look forward to working with Heng and the rest of the community to understand the best way to build and use these objects.
 I believe that this will require competitive but supportive and participant-oriented projects in which we not only build, but use pangenomes to drive genomic inference.
