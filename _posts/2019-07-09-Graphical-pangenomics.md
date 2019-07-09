@@ -19,7 +19,7 @@ A variation graph combines three types of elements in a pangenomic data structur
 We have DNA sequences (nodes), allowed linkages between them (edges), and genomes (paths) that are walks through the graph.
 Nodes have identifiers, which are numeric, and paths have names, which are text strings.
 One concession is made to reflect the genomic use of these graphs.
-They are bidirectional, and represent both strands of DNA, so positions refer to either the forward or reverse complement orientiation of nodes.
+They are bidirectional, and represent both strands of DNA, so positions refer to either the forward or reverse complement orientation of nodes.
 This means that there are four kinds of edges (+/+, +/-, -/-, -/+), each of which implies its own reverse complement.
 
 There are many ways to visualize these graphs, but perhaps the most instructive here is the first one that I developed, based on graphviz's dot.
@@ -33,7 +33,7 @@ Below, paths are represented by the sequence of node identifiers they pass throu
 ### Schema based data formats for variation graphs
 
 Along with Adam Novak (who helped to make it bidirectional), I first implemented this model in [a short protobuf schema](https://github.com/vgteam/libvgio/blob/f6f93ddeeb97a3977ad8109f16bf031da718e40a/deps/vg.proto).
-By compling this schema into a set of class libraries, we built both an API and a set of data types for graph-based genomics directly from the schema.
+By compiling this schema into a set of class libraries, we built both an API and a set of data types for graph-based genomics directly from the schema.
 This approach was very much in line with the activities of the GA4GH-DWG community discussions (for instance: [1](https://github.com/ga4gh/ga4gh-schemas/issues/275) [2](https://github.com/ga4gh/ga4gh-schemas/issues/444)), which aimed to build schema-based interchange formats rather than basic textual ones.
 
 <!-- Although it did help the project gain traction, I have since regretted this choice due to the dependency complexity that it introduces. -->
@@ -65,20 +65,20 @@ If we build a variant caller that emits genotypes as sets of _Path_s, then we ca
 
 The variation graph model is designed to be as simple as possible.
 It makes no assertions about graph structure or coordinates.
-This design was intentional, because simplicitly allows for generality.
+This design was intentional, because simplicity allows for generality.
 It is possible to use virtually any kind of sequence graph as the basis for a variation graph.
 In [vg](https://github.com/vgteam/vg), we have implemented constructors for variation graphs that start from VCF files and references, de Bruijn graphs, string graphs, multiple sequence alignments, RNA splicing graphs, and whole genome alignments.
 If you can build a sequence graph, vg can use it as a reference system.
 
 Although graphs built from linear references and VCF files were our primary focus, in our [paper on read alignment to variation graphs](https://europepmc.org/articles/pmc6126949), we demonstrate that we can use vg to align long PacBio reads from a held out strain to a whole genome alignment graph (made by [Cactus](https://www.nature.com/articles/nbt.4227)) built from six other de novo _S. cerevisiae_ assemblies.
-My thesis covers many other examples, including a freshwater viral metagenome, a bacterial pangenome, a structural variation graph, and a human gut microbiome.
+My thesis covers many other examples, including a freshwater viral metagenome, a bacterial pangenome, a structural variation graph, a yeast splicing graph, and a human gut microbiome.
 
 This generality came at a cost of increased development time, as there was more for us to learn and discover.
 However, as the collaboration driving vg progressed, we learned how to handle this complexity.
 We found that, while the variation graph is an ideal data integration system, we may need to construct technical transformations of genome graphs to enable efficient read alignment against them.
 In general, these graphs are strict subsets of larger graphs, with reduced complexity.
 But they may also involve the unfolding or duplication of complex regions, so as to reduce the path explosion that can occur when many variants occur in proximity.
-We preserve a mapping betwen the technical and base graphs, using each in its optimal application.
+We preserve a mapping between the technical and base graphs, using each in its optimal application.
 It would trivialize our work to suggest that this is always easy.
 Our success indicates that it is possible and more expedient than was expected by groups that chose to restrict their pangenomic model _a priori_.
 
@@ -119,16 +119,16 @@ This result suggests that it might be tenable and even desirable to store all th
 ### The next phase of graphical pangenomics
 
 Now, five years into my experience in this subfield, we are at an inflection point.
-Far from being a curious way to reduce reference bias against small variants, vg and other graphical genomic methods are poised to become a key toolset for managing and understanding an oncoming deluge of whole, large, genomes from vertebrates including humans.
+Far from being a curious way to reduce reference bias against small variants, vg and other graphical genomic methods are poised to become a key toolset for managing and understanding an oncoming deluge of whole, large, genomes from vertebrates, including humans.
 To address this need, I have spent much of the last year working on a series of tools that allow us to construct and manipulate variation graphs representing whole genomes alignments of large number of large genomes.
 
-The first, [seqwish](https://github.com/ekg/seqwish) consumes alignments made by [minimap2](https://github.com/lh3/minimap2) over a set of sequences and produces a variation graph (in GFA format) that losslessly encodes all the sequences (as paths) and their base pair exact alignments (in the graph topology itself).
+The first, [seqwish](https://github.com/ekg/seqwish), consumes alignments made by [minimap2](https://github.com/lh3/minimap2) over a set of sequences and produces a variation graph (in GFA format) that losslessly encodes all the sequences (as paths) and their base pair exact alignments (in the graph topology itself).
 This method is several orders of magnitude faster than equivalent methods like [Cactus](https://github.com/glennhickey/progressiveCactus), and is more flexible than de Bruijn graph based methods like [SibeliaZ](https://github.com/medvedevgroup/SibeliaZ).
-Although it is very much still a prototype, I am now reliably able to apply seqwish to collections of large genomes such as human and African cichlids.
+Although it is very much still a prototype, I am now reliably able to apply seqwish to collections of large genomes such as human and cichlids.
 For testing, I construct pangenomes for yeast on my laptop in a few minutes, a task that used to take up to a day on a large compute node.
 Still, its performance can be improved greatly, and the complete range-based compression of its data structures (using Heng Li's awesome [implicit interval tree](https://github.com/lh3/cgranges)) will allow it to scale to the construction of a lossless pangenome from hundreds of human genomes.
 Because it exactly respects its input alignments, seqwish can act as a self-contained kernel in a pangenomic construction pipeline.
-The difficulty will lie in structuring and [selecting the best set of alignments](https://github.com/natir/fpa) for a given pangenome.
+Once it is sufficiently optimized, the difficulty will lie in structuring and [selecting the best set of alignments](https://github.com/natir/fpa) for a given pangenome.
 
 A key failing of vg has been its in-memory graph model.
 This model can consume up to 100 bytes of memory per input base of the graph.
@@ -151,14 +151,13 @@ Here, taking only the _cerevisiae_ genomes, we run minimap2, filter the alignmen
 This shows a relatively open graph, with some collapse and some apparently unaligned chromosome ends (perhaps because of our length filter).
 Rendering with Bandage can take an extremely long time and the resulting graphs are difficult to interpret because it is not easy to view the relationship between different embedded paths in the graph.
 
-With `odgi viz`, we can then get an image of how the embedded chromosomes relate to each other and to the topology of the graph.
+However, with `odgi viz`, we can obtain an image of how the embedded chromosomes relate to each other and to the topology of the graph.
 This linear time rendering method displays the graph topology at the bottom of the image, using rectangular motifs to show where edges (hung below) link two positions in the sorted sequence space of the graph (the black line dividing the top and bottom of the image).
-
 Paths are displayed above this topology, with one path at each position on the y axis.
 The layout is nonlinear, and only shows what positions in the graph are touched by a given path, but because genome graphs are built from linear sequences, they have a manifold linear property.
 
-Here genomes are ordered from top to bottom: S288c, DBVPG6765, UWOPS034614, Y12, YPS128, SK1, DBVPG6044.
-The chromosome order results from the initial sequential assignment of node ids by seqwish.
+In the following figure, genomes are ordered from top to bottom: S288c, DBVPG6765, UWOPS034614, Y12, YPS128, SK1, DBVPG6044.
+The chromosome order partly results from the initial sequential assignment of node ids by seqwish.
 We immediately see that a chromosome in UWOPS034614 (a highly diverged strain) has been rearranged into other chromosomes.
 Also notable are the frequent structural variations and CNVs that appear to be embedded in the ends of chromosomes.
 This confirms another finding from the [paper describing these assemblies](https://www.nature.com/articles/ng.3847), whose authors observed that subtelomeric regions were hotspots of structural variation.
@@ -173,16 +172,18 @@ In the coming weeks, I'll be reporting more on these methods and their applicati
 I was partly motivated to write this post by [Heng Li's release of a similar toolchain for the construction of pangenomic reference graphs](https://lh3.github.io/2019/07/08/on-a-reference-pan-genome-model).
 This approach is the first practical implementation of ideas about coordinate systems and reference graphs that arose during the GA4GH graph genome conversations.
 Heng proposes that we need a new data model to encode stable coordinates in pangenomes.
-This model (represented in rGFA) is akin to the "side graph" that was discussed in those days, and also to the hierarchical model used by Seven Bridges Genomics.
-He also argues, by way of the construction algorithm that he proposes, that the graph should not include anything other than structurally novel sequences relative to an established reference.
+This model (implemented in rGFA) is akin to the "side graph" that was discussed in those days, and also to the hierarchical model used by Seven Bridges Genomics.
+It annotates GFA elements with information that indicates their origin in a coordinate hierachy that has been constructed progressively.
+Although this is not a strict feature of rGFA, Heng also argues by way of the progressive pangenome construction algorithm that he proposes, that the graph should not include anything other than structurally novel sequences relative to an established reference.
 
+minigraph is beautiful manifestation of Heng's commitment to simple, efficient, and conceptually clean bioinformatic methods.
 I am very happy that there is now another method to build pangenomes that can scale to the problem sizes that I'm working at.
-Its performance is particularly motivating, and provided it is based on minimap2 chaining, I would expect the resulting graphs to be of high quality in terms of capturing the large scale relationships between sequences.
+Its performance is particularly motivating (I measure it as 5-10x faster than the seqwish pipeline), and provided it is based on minimap2 chaining, I would expect the resulting graphs to be of high quality in terms of capturing the large scale relationships between sequences.
 I expect to be working with the output of minigraph in my own workflows.
 
 However, I want to point out that there is a stark difference between what minigraph produces and the pangenomic models I've laid out here.
 Users of these methods should understand that this is not a general solution to recording collections of genomes in a pangenome, but a way of deriving a coordinate hierarchy that relates to novel sequences according to a given progressive alignment model.
-I fear that, if taken up as the primary pangenomic model, rGFA in its current form will perpetuate a long cycle of reference bias that has dominated many aspects of genomics since the establishment of resequencing based methods.
+I fear that, if taken up as the primary pangenomic model, minigraph/rGFA in its current form will perpetuate a long cycle of reference bias that has dominated many aspects of genomics since the establishment of resequencing based methods.
 
 Minigraphs/rGFAs are lossy relative to their input sequences.
 It will not be possible to build a minigraph rGFA that contains all of the sequence in a set of samples unless there are no small variants between these sequences.
@@ -193,18 +194,17 @@ In these graphs we will have trouble knowing when we should expect to find a var
 
 In minigraph based graphs, we don't have any small variation.
 This simplifies things and allows us to use legacy algorithms (sequence to sequence chaining and mapping) in the graph, but our results show that this will come at a cost in terms of accuracy for alignment to variants excluded from the graph.
-This also means that working with small variation in the context of minigraph references will require generalizations of VCF, and will retain all of the complexity and related to that format.
+This also means that working with small variation in the context of minigraph references will require generalizations of VCF, and will retain all of the complexity related to that format.
 The effect of this will be to shift the difficulty of genotyping from alignment (as in graph genomes) back to variant calling (as in linear genomes).
 
 The coordinate model that Heng proposes will provide a stable hierarchy, but only if the graph was constructed in the same way, by the same algorithm, or if the graph is a strict extension of a previous graph.
 Changes to the base reference will make the graphs incompatible.
-A perfectly stable hierarchy of coordinates that exactly corresponds to graph structure is untenable in the long term.
-For these and other reasons, I do not believe that we should embed the coordinate system we use in the structure of the graph.
+Because of this inflexibility, I do not believe that we should embed the coordinate system we use in the structure of the graph.
 Rather the two should be independent, allowing diverse graph structures to be built and used as needed during research even as we maintain a common coordinate space.
 All that is needed to provide coordinates (in variation graph terms) is a set of paths that mostly cover the graph.
 And that suggests how these models can work together.
 With minigraph, we can build a base rGFA that provides a covering coordinate space for the graph.
-Then, embedding these coordinate spaces as paths in our graph, we can decorate the graph as we please, with whatever variation and genomes are useful for our analysis.
+Then, embedding these coordinate spaces as paths in our graph, we can decorate, extend, or rebuild the graph as we please, with whatever variation and genomes are useful for our analysis.
 This is all easy, because we're already reading and writing the same format (GFA), although this exchange may not always be bidirectional due to algorithm limitations.
 
 To make all this concrete, I leave you with two versions of the GRCh38 ALTs for DRB1-3123 in HLA.
@@ -216,7 +216,7 @@ They are different in size (minigraph yields 20% more sequence in the graph) and
 <img src="{{ site.url }}/assets/DRB1-3123.seqwish.png")>
 
 I look forward to working with Heng and the rest of the community to understand the best way to build and use these objects.
-This will require competitive projects in which we not only build, but use pangenomes to drive genomic inference.
+I believe that this will require competitive but supportive and participant-oriented projects in which we not only build, but use pangenomes to drive genomic inference.
 Together, I am sure we will figure out how to bring these ideas to fruition and build scalable and helpful pangenomic methods.
 The important thing is that we learn to read and write the same data types.
 And, crucially, I hope that these data types are general enough to support all the things that researchers might need to do.
