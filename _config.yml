@@ -16,7 +16,7 @@ sass:
 title : erik garrison's blog
 #tagline: pangenomics
 author :
-  name : Erik Garrison
+#  name : Erik Garrison
   email : erik.garrison@gmail.com
   github : ekg
   twitter : erikgarrison
