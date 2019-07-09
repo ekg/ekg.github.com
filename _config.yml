@@ -13,8 +13,8 @@ sass:
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : Replications
-tagline: Rough copy about reading and writing genomes
+title : erik garrison's blog
+#tagline: pangenomics
 author :
   name : Erik Garrison
   email : erik.garrison@gmail.com
