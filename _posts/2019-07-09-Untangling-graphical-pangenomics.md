@@ -113,6 +113,7 @@ This kind of projection will work for any pair of graphs with the same embedded 
 This feature also addresses another key shortcoming of genome graphs.
 Graphs built from sequences and linkages between them are memoryless, and allow recombinations of alleles that are very unlikely to exist in reality.
 The paths in the variation graph address exactly this issue, and provide long range structure to the object that would be lost if it were simply a graphical model.
+
 Although paths are expensive to store, in a given species most haplotypes at a given locus will be similar, and we can exploit this to [compress genomes into haplotype indexes like the GBWT](https://arxiv.org/abs/1805.03834) that use only a fraction of a bit per basepair of stored sequence while providing linear-time haplotype matching and extraction functionality.
 This result suggests that it might be tenable and even desirable to store all the sequences that we used to build a pangenome, even if these number in the many millions.
 
