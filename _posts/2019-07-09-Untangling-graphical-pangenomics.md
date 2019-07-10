@@ -121,7 +121,7 @@ This result suggests that it might be tenable and even desirable to store all th
 
 Now, five years into my experience in this subfield, we are at an inflection point.
 Far from being a curious way to reduce reference bias against small variants, vg and other graphical genomic methods are poised to become a key toolset for managing and understanding an oncoming deluge of whole, large, genomes from vertebrates, including humans.
-To address this need, I have spent much of the last year working on a series of tools that allow us to construct and manipulate variation graphs representing whole genomes alignments of large number of large genomes.
+To address this need, I have spent much of the last year working on a series of tools that allow us to construct and manipulate variation graphs representing whole genome alignments of large numbers of large genomes.
 
 The first, [seqwish](https://github.com/ekg/seqwish), consumes alignments made by [minimap2](https://github.com/lh3/minimap2) over a set of sequences and produces a variation graph (in GFA format) that losslessly encodes all the sequences (as paths) and their base pair exact alignments (in the graph topology itself).
 This method is several orders of magnitude faster than equivalent methods like [Cactus](https://github.com/glennhickey/progressiveCactus), and is more flexible than de Bruijn graph based methods like [SibeliaZ](https://github.com/medvedevgroup/SibeliaZ).
