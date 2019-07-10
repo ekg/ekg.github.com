@@ -59,7 +59,7 @@ Here, we augment the graph on the left (_G_) with alignment _z_, that includes a
 ![Editing a variation graph]({{ site.url }}/assets/example_vg_construction_edit_only.png)
 
 With this operation and an aligner, we can progressively build variation graphs (as in `vg msga`).
-If we build a variant caller that emits genotypes as sets of _Path_s, then we can directly use the output of the variant caller to extend the reference system with the same function (as in `vg call`).
+If we build a variant caller that emits genotypes as sets of _Paths_, then we can directly use the output of the variant caller to extend the reference system with the same function (as in `vg call`).
 
 ### Pangenomic model choice
 
