@@ -23,7 +23,7 @@ They are bidirectional, and represent both strands of DNA, so positions refer to
 This means that there are four kinds of edges (+/+, +/-, -/-, -/+), each of which implies its own reverse complement.
 
 There are many ways to visualize these graphs, but perhaps the most instructive here is the first one that I developed, based on graphviz's dot.
-This rendering (from my thesis, [Graphical pangenomics](https://zenodo.org/record/3269840)) shows a fragment of a variation graph built from a progressive alignment of the GRCh38 ALT haplotypes for HLA gene H-3136.
+This rendering (from my thesis, [Graphical pangenomics](https://zenodo.org/record/3294392)) shows a fragment of a variation graph built from a progressive alignment of the GRCh38 ALT haplotypes for HLA gene H-3136.
 We don't have any inverting edges or cycles, but we do see a feature that's impossible to express in [VCF](https://vcftools.github.io/specs.html): nested variation.
 Above, we see the core of the graphical structure.
 Below, paths are represented by the sequence of node identifiers they pass through.
@@ -124,7 +124,7 @@ To address this need, I have spent much of the last year working on a series of 
 
 The first, [seqwish](https://github.com/ekg/seqwish), consumes alignments made by [minimap2](https://github.com/lh3/minimap2) over a set of sequences and produces a variation graph (in GFA format) that losslessly encodes all the sequences (as paths) and their base pair exact alignments (in the graph topology itself).
 This method is several orders of magnitude faster than equivalent methods like [Cactus](https://github.com/glennhickey/progressiveCactus), and is more flexible than de Bruijn graph based methods like [SibeliaZ](https://github.com/medvedevgroup/SibeliaZ).
-Although it is very much still a prototype, I am now reliably able to apply seqwish to collections of large genomes such as human and cichlids.
+Although it is very much still a prototype, I am now reliably able to apply seqwish to collections of eukaryotic genomes such as human, [medaka](https://twitter.com/erikgarrison/status/1127984636452274177), and cichlids.
 For testing, I construct pangenomes for yeast on my laptop in a few minutes, a task that used to take up to a day on a large compute node.
 Still, its performance can be improved greatly, and the complete range-based compression of its data structures (using Heng Li's awesome [implicit interval tree](https://github.com/lh3/cgranges)) will allow it to scale to the construction of a lossless pangenome from hundreds of human genomes.
 Because it exactly respects its input alignments, seqwish can act as a self-contained kernel in a pangenomic construction pipeline.
@@ -134,9 +134,9 @@ A key failing of vg has been its in-memory graph model.
 This model can consume up to 100 bytes of memory per input base of the graph.
 Although acceptable for a starting PhD project and proof of principle methods, this is not scalable to the problems that we routinely apply vg to.
 We have had to work around this in various ways, such as by subsetting graphs to single (human scale) chromosomes, by using larger memory machines, or by transforming the graph into static succinct indexes like [xg](https://github.com/vgteam/xg).
-Last winter, Jordan Eizenga and I decided to tackle this issue by building a set of [dynamic succinct variation graph models](https://github.com/vgteam/sglib).
+Last winter, at the [NBDC/DBCLS BioHackathon in Matsue](http://2018.biohackathon.org/), Jordan Eizenga and I decided to tackle this issue by building a set of [dynamic succinct variation graph models](https://github.com/vgteam/sglib).
 These present a consistent [HandleGraph](https://github.com/vgteam/libhandlegraph) C++ interface, and can be used interchangeably with any algorithms written to work on this interface, [of which there are now many](https://github.com/vgteam/vg/tree/master/src/algorithms).
-The result of my work on this topic is [odgi](https://github.com/vgteam/odgi), which provides efficient postprocessing for the large graphs built with seqwish.
+The result of my own work on this topic is [odgi](https://github.com/vgteam/odgi), which provides efficient postprocessing for the large graphs built with seqwish.
 Currently, this method supports the difficult steps of graph topological sorting, pruning, simplification, and kmer indexing.
 I plan to extend it to support read alignment and progressive graph construction, to complement seqwish and other [emerging methods like minigraph](https://github.com/lh3/minigraph).
 
@@ -149,12 +149,13 @@ Here, taking only the _cerevisiae_ genomes, we run minimap2, filter the alignmen
 ![Seqwish yeast Bandage visualization]({{ site.url }}/assets/seqwish10kbyeast.png)
 
 This shows a relatively open graph, with some collapse and some apparently unaligned chromosome ends (perhaps because of our length filter).
-Rendering with Bandage can take an extremely long time and the resulting graphs are difficult to interpret because it is not easy to view the relationship between different embedded paths in the graph.
 
+Rendering with Bandage can take an extremely long time and the resulting graphs are difficult to interpret because it is not easy to view the relationship between different embedded paths in the graph.
 However, with `odgi viz`, we can obtain an image of how the embedded chromosomes relate to each other and to the topology of the graph.
 This linear time rendering method displays the graph topology at the bottom of the image, using rectangular motifs to show where edges (hung below) link two positions in the sorted sequence space of the graph (the black line dividing the top and bottom of the image).
 Paths are displayed above this topology, with one path at each position on the y axis.
-The layout is nonlinear, and only shows what positions in the graph are touched by a given path, but because genome graphs are built from linear sequences, they have a manifold linear property.
+The layout is nonlinear, and only shows what positions in the graph are touched by a given path.
+But, because genome graphs are built from linear sequences, they have a manifold linear property and we can often apply a linear intuition to interpreting them.
 
 In the following figure, genomes are ordered from top to bottom: S288c, DBVPG6765, UWOPS034614, Y12, YPS128, SK1, DBVPG6044.
 The chromosome order partly results from the initial sequential assignment of node ids by seqwish.
@@ -174,19 +175,20 @@ This approach is the first practical implementation of ideas about coordinate sy
 Heng proposes that we need a new data model to encode stable coordinates in pangenomes.
 This model (implemented in rGFA) is akin to the "side graph" that was discussed in those days, and also to the hierarchical model used by Seven Bridges Genomics.
 It annotates GFA elements with information that indicates their origin in a coordinate hierachy that has been constructed progressively.
-Although this is not a strict feature of rGFA, Heng also argues by way of the progressive pangenome construction algorithm that he proposes, that the graph should not include anything other than structurally novel sequences relative to an established reference.
+In effect, rGFA will be able to support the full range of semantics that we maintain in GFA, but it simplifies the process of relating stable coordinate systems into the graph using these annotations.
+rGFA provides a formal specification for the exchange of path relative coordinates that we have long been caching in various indexes used by tools in the vg ecosystem, and that may be very important for users of pangenomic models.
 
+Heng also puts forward a prototype progressive pangenome construction algorithm (minigraph) that builds the graph to contain only structurally novel sequences relative to an established reference or graph that is being extended.
 minigraph is beautiful manifestation of Heng's commitment to simple, efficient, and conceptually clean bioinformatic methods.
-I am very happy that there is now another method to build pangenomes that can scale to the problem sizes that I'm working at.
 Its performance is particularly motivating (I measure it as 5-10x faster than the seqwish pipeline), and provided it is based on minimap2 chaining, I would expect the resulting graphs to be of high quality in terms of capturing the large scale relationships between sequences.
-I expect to be working with the output of minigraph in my own workflows.
+I am very happy that there is now another method to build pangenomes that can scale to the problem sizes that I'm working at, and I expect to be working with the output of minigraph in my own workflows.
 
 However, I want to point out that there is a stark difference between what minigraph produces and the pangenomic models I've laid out here.
-Users of these methods should understand that this is not a general solution to recording collections of genomes in a pangenome, but a way of deriving a coordinate hierarchy that relates to novel sequences according to a given progressive alignment model.
-I fear that, if taken up as the primary pangenomic model, minigraph/rGFA in its current form will perpetuate a long cycle of reference bias that has dominated many aspects of genomics since the establishment of resequencing based methods.
+Users of this method should understand that this is not a general solution to recording collections of genomes in a pangenome, but a way of deriving a coordinate hierarchy that relates to novel sequences according to a given progressive alignment model.
+I fear that, if taken up as the primary pangenomic model, the minigraph approach in its current form will perpetuate a long cycle of reference bias that has dominated many aspects of genomics since the establishment of resequencing based methods.
 
-Minigraphs/rGFAs are lossy relative to their input sequences.
-It will not be possible to build a minigraph rGFA that contains all of the sequence in a set of samples unless there are no small variants between these sequences.
+Minigraph pangenomes are lossy relative to their input sequences.
+It will not be possible to build a minigraph that contains all of the sequence in a set of samples unless there are no small variants between these sequences.
 The sequence included in the graph will be order dependent.
 This exposes us to reference bias for all kinds of variation that are not sufficiently large or divergent to frustrate the progressive alignment algorithm.
 The exact configuration that will trigger this may be opaque to end users.
@@ -221,3 +223,7 @@ Together, I am sure we will figure out how to bring these ideas to fruition and 
 The important thing is that we learn to read and write the same data types.
 And, crucially, I hope that these data types are general enough to support all the things that researchers might need to do.
 There are exciting times ahead!
+
+#### corrections
+
+2019-07-10: I have updated this post to properly distinguish rGFA and minigraph and to resolve an error in the variation graph editing figure.
