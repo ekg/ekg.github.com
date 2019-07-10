@@ -131,8 +131,7 @@ Still, its performance can be improved greatly, and the complete range-based com
 Because it exactly respects its input alignments, seqwish can act as a self-contained kernel in a pangenomic construction pipeline.
 Once it is sufficiently optimized, the difficulty will lie in structuring and [selecting the best set of alignments](https://github.com/natir/fpa) for a given pangenome.
 
-A key failing of vg has been its in-memory graph model.
-This model can consume up to 100 bytes of memory per input base of the graph.
+A key failing of vg has been its in-memory graph model, which can consume up to 100 bytes of memory per input base of the graph.
 Although acceptable for a starting PhD project and proof of principle methods, this is not scalable to the problems that we routinely apply vg to.
 We have had to work around this in various ways, such as by subsetting graphs to single (human scale) chromosomes, by using larger memory machines, or by transforming the graph into static succinct indexes like [xg](https://github.com/vgteam/xg).
 Last winter, at the [NBDC/DBCLS BioHackathon in Matsue](http://2018.biohackathon.org/), Jordan Eizenga and I decided to tackle this issue by building a set of [dynamic succinct variation graph models](https://github.com/vgteam/sglib).
