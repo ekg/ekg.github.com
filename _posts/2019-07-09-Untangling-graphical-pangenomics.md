@@ -23,7 +23,7 @@ They are bidirectional, and represent both strands of DNA, so positions refer to
 This means that there are four kinds of edges (+/+, +/-, -/-, -/+), each of which implies its own reverse complement.
 
 There are many ways to visualize these graphs, but perhaps the most instructive here is the first one that I developed, based on graphviz's dot.
-This rendering (from my thesis, [Graphical pangenomics](https://zenodo.org/record/3294392)) shows a fragment of a variation graph built from a progressive alignment of the GRCh38 ALT haplotypes for HLA gene H-3136.
+This rendering (from my thesis, [Graphical pangenomics](https://doi.org/10.17863/CAM.41621)) shows a fragment of a variation graph built from a progressive alignment of the GRCh38 ALT haplotypes for HLA gene H-3136.
 We don't have any inverting edges or cycles, but we do see a feature that's impossible to express in [VCF](https://vcftools.github.io/specs.html): nested variation.
 Above, we see the core of the graphical structure.
 Below, paths are represented by the sequence of node identifiers they pass through.
